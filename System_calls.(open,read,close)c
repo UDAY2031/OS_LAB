@@ -1,0 +1,30 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <dirent.h> // For working with directories
+
+int main() {
+    char dirname[256];         // To store the directory name
+    struct dirent *dptr;       // To hold information about each item in the directory
+    DIR *dir;                  // Pointer to the directory
+
+    // Ask the user for the directory name
+    printf("Enter the directory name: ");
+    scanf("%s", dirname);
+
+    // Try to open the directory
+    dir = opendir(dirname);
+    if (dir == NULL) { // If opening fails, show an error message
+        perror("Could not open directory");
+        return 1; // Exit with an error code
+    }
+
+    // Read and print the contents of the directory
+    while ((dptr = readdir(dir)) != NULL) {
+        printf("%s\n", dptr->d_name); // Print each item's name
+    }
+
+    // Close the directory
+    closedir(dir);
+
+    return 0; // Exit successfully
+}
